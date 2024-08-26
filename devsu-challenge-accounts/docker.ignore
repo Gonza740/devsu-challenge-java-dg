@@ -1,0 +1,73 @@
+# Compilados Java
+*.class
+
+# Paquetes
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Logs y bases de datos
+*.log
+*.sql
+*.sqlite
+
+# IDE - IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# IDE - Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+
+# IDE - NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# IDE - Visual Studio Code
+.vscode/
+
+# Herramientas de construcción - Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Herramientas de construcción - Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Sistema Operativo - macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Otros
+*.swp
+*~
+
+# Node (si se utiliza en el proyecto)
+node_modules/
+
+# Archivos de entorno
+.env

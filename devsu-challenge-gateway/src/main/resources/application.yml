@@ -1,0 +1,71 @@
+server:
+  port: 8080
+
+application:
+  title: DEVSU - CHALLENGE
+  version: 1.0.0
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+springdoc:
+  enable-native-support: true
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /api/swagger-ui.html
+    urls:
+      - url: /v3/api-docs
+        name: API Gateway
+      - url: /api/devsu-challenge-clients/v3/api-docs
+        name: Clients
+      - url: /api/devsu-challenge-accounts/v3/api-docs
+        name: Accounts
+
+swagger:
+  gateway:
+    url: http://localhost:8080
+
+spring:
+  cloud:
+    gateway:
+      httpclient:
+        connect-timeout: 30000
+        response-timeout: 30s
+      routes:
+        # Gateway
+        - id: devsu-challenge-gateway-api-docs
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/v3/api-docs
+            - Method=GET
+          filters:
+            - RewritePath=/api/v3/api-docs, /v3/api-docs
+        # Clients
+        - id: devsu-challenge-clients
+          uri: http://clients:8090
+          predicates:
+            - Path=/api/v1/clientes/**
+        - id: devsu-challenge-clients-api-docs
+          uri: http://clients:8090
+          predicates:
+            - Path=/api/devsu-challenge-clients/v3/api-docs
+            - Method=GET
+          filters:
+            - RewritePath=/api/devsu-challenge-clients/v3/api-docs, /devsu-challenge-clients/v3/api-docs
+        # Accounts
+        - id: devsu-challenge-accounts
+          uri: http://accounts:8091
+          predicates:
+            - Path=/api/v1/cuentas/**, /api/v1/movimientos/**, /api/v1/reportes/**
+        - id: devsu-challenge-accounts-api-docs
+          uri: http://accounts:8091
+          predicates:
+            - Path=/api/devsu-challenge-accounts/v3/api-docs
+            - Method=GET
+          filters:
+            - RewritePath=/api/devsu-challenge-accounts/v3/api-docs, /devsu-challenge-accounts/v3/api-docs

@@ -1,0 +1,68 @@
+services:
+  database:
+    build: ./devsu-challenge-database
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U DEVSU -d DEVSU"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    networks:
+      - database
+
+  gateway:
+    build: ./devsu-challenge-gateway
+    depends_on:
+      database:
+        condition: service_healthy
+        restart: true
+    networks:
+      - database
+    ports:
+      - 8080:8080
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+
+  accounts:
+    build: ./devsu-challenge-accounts
+    depends_on:
+      database:
+        condition: service_healthy
+        restart: true
+      gateway:
+        condition: service_healthy
+        restart: true
+    networks:
+      - database
+    healthcheck:
+      test: "curl --fail --silent localhost:8091/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+
+  clients:
+    build: ./devsu-challenge-clients
+    depends_on:
+      database:
+        condition: service_healthy
+        restart: true
+      gateway:
+        condition: service_healthy
+        restart: true
+    networks:
+      - database
+    healthcheck:
+      test: "curl --fail --silent localhost:8090/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+
+networks:
+  database:
+    driver: bridge

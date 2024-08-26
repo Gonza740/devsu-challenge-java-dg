@@ -1,0 +1,46 @@
+server:
+  port: 8090
+  base-path: /api/v1/clientes
+
+application:
+  title: DEVSU - CHALLENGE
+  version: 1.0.0
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+swagger:
+  info:
+    title: DEVSU - CHALLENGE - CLIENTS
+    version: 1.0
+    description: Está api permite realizar operaciones sobre los clientes de la aplicación.
+  gateway:
+    url: http://localhost:8080
+  contact:
+    email: davidgonzad301@gmail.com
+    name: David González
+    url: https://www.linkedin.com/in/david-gonzalez-052549156/
+
+springdoc:
+  api-docs:
+    path: /devsu-challenge-clients/v3/api-docs
+  swagger-ui:
+    path: /devsu-challenge-clients/swagger-ui.html
+
+spring:
+  datasource:
+    url: jdbc:postgresql://database:5432/DEVSU
+    username: DEVSU
+    password: DEVSU
+    driver-class-name: org.postgresql.Driver
+    jpa:
+      open-in-view: false
+      show-sql: true
+      hibernate:
+        ddl-auto: none
+      properties:
+        hibernate:
+          format_sql: false
